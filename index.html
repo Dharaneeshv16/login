@@ -43,8 +43,6 @@
       <input type="hidden" name="_next" value="https://example.com/thank-you">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
-      <!-- Optional: CC another email -->
-      <!-- <input type="hidden" name="_cc" value="someone@example.com"> -->
 
       <button type="submit"
               class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200">
@@ -57,5 +55,33 @@
       <a href="#" class="text-blue-500 hover:underline">Sign up</a>
     </p>
   </div>
+
+  <!-- Debugging script -->
+  <script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+      // Prevent form submission for debugging
+      event.preventDefault();
+
+      // Log form data to see if everything is being captured
+      const formData = new FormData(event.target);
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+
+      // Try submitting the form manually (for debugging purposes)
+      fetch(event.target.action, {
+        method: event.target.method,
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log("Form submitted successfully:", data);
+        window.location.href = "https://example.com/thank-you"; // Redirect after success
+      })
+      .catch(error => {
+        console.error("Error submitting form:", error);
+      });
+    });
+  </script>
 </body>
 </html>
